@@ -35,7 +35,8 @@ class Context(maxIters: Int, parkPeriod: Int, exceptionPeriod: Int) {
 
   private[consumer] def parkTime(): Long = random.nextLong(50)
 
-  private[consumer] def needThrow: Boolean = exceptionIter == 0 && exceptionPeriod > 1
+  private[consumer] def needThrow: Boolean =
+    exceptionIter == 0 && exceptionPeriod > 1
 
   private[consumer] def isDone: Boolean = curIter >= maxIters
 

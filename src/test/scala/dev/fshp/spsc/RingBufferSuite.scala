@@ -5,7 +5,7 @@ import munit._
 class RingBufferSuite extends FunSuite {
   test("validate read / write") {
     val buffer = new RingBuffer(1024)
-    
+
     for (i <- 0 until buffer.capacity) {
       assertEquals(buffer.isReadable, i > 0)
       assertEquals(buffer.isWritable, i < buffer.capacity)

@@ -18,9 +18,9 @@ class Consumer private (context: Context, buffer: Readable) extends Runnable {
         if (context.needThrow) {
           throw new DummyException("Consumer")
         }
-        
+
         context.write(buffer.read())
-        
+
       } else {
         Thread.`yield`()
       }
@@ -29,5 +29,6 @@ class Consumer private (context: Context, buffer: Readable) extends Runnable {
 }
 
 object Consumer {
-  def apply(buffer: Readable): Context => Consumer = c => new Consumer(c, buffer)
+  def apply(buffer: Readable): Context => Consumer = c =>
+    new Consumer(c, buffer)
 }

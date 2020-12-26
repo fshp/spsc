@@ -8,11 +8,11 @@ class Producer private (context: Context, buffer: Writable) extends Runnable {
     while (!context.isDone) {
       if (buffer.isWritable) {
         context.next()
-        
+
         if (context.needThrow) {
           throw new DummyException("Producer")
         }
-        
+
         buffer.write(context.read())
       } else {
         Thread.`yield`()
@@ -22,5 +22,6 @@ class Producer private (context: Context, buffer: Writable) extends Runnable {
 }
 
 object Producer {
-  def apply(buffer: Writable): Context => Producer = c => new Producer(c, buffer)
+  def apply(buffer: Writable): Context => Producer = c =>
+    new Producer(c, buffer)
 }

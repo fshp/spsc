@@ -20,7 +20,8 @@ class Context(maxIters: Int, exceptionPeriod: Int) {
     value
   }
 
-  private[producer] def needThrow: Boolean = exceptionIter == 0 && exceptionPeriod > 0
+  private[producer] def needThrow: Boolean =
+    exceptionIter == 0 && exceptionPeriod > 0
 
   private[producer] def isDone: Boolean = curIter >= maxIters
 }

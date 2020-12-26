@@ -14,13 +14,15 @@ trait Writable {
 
 final class RingBuffer(size: Int) extends Readable with Writable {
   assert(size > 1, "Size should be greater than 1")
-  
+
   private val buffer: Array[Int] = new Array[Int](size)
-  private val readIndex: AtomicInteger = new AtomicInteger(0) // next write index
-  private val writeIndex: AtomicInteger = new AtomicInteger(0) // next read index
+  private val readIndex: AtomicInteger =
+    new AtomicInteger(0) // next write index
+  private val writeIndex: AtomicInteger =
+    new AtomicInteger(0) // next read index
 
   def capacity: Int = size - 1
-  
+
   def isReadable: Boolean = {
     readIndex.get() != writeIndex.get()
   }
