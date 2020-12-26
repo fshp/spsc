@@ -1,9 +1,5 @@
 package dev.fshp.spsc.producer
 
-import java.util.concurrent.atomic.LongAdder
-import scala.concurrent.{Future, Promise}
-import scala.util.Random
-
 class Context(maxIters: Int, exceptionPeriod: Int) {
   private var curIter: Int = 0
   private var exceptionIter: Int = 0

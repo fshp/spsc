@@ -1,6 +1,6 @@
 package dev.fshp.spsc
 
-import java.util.concurrent.atomic.{AtomicBoolean, AtomicInteger}
+import java.util.concurrent.atomic.AtomicBoolean
 
 final class Supervisor[T](name: String, context: T, task: T => Runnable)
     extends Thread.UncaughtExceptionHandler { self =>
