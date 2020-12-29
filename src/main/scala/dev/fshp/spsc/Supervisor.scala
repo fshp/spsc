@@ -6,7 +6,7 @@ final class Supervisor[T](name: String, context: T, task: T => Runnable) {
   private val isDone: AtomicBoolean = new AtomicBoolean(false)
   private var workersCounter: Int = 0
 
-  private val getName: String = s"""Supervisor "$name""""
+  private val threadName: String = s"""Supervisor "$name""""
 
   private val catcher = new Thread.UncaughtExceptionHandler {
     override def uncaughtException(t: Thread, e: Throwable): Unit = {
@@ -18,7 +18,7 @@ final class Supervisor[T](name: String, context: T, task: T => Runnable) {
     val runnable = new Runnable {
       override def run(): Unit = {
         while (!isDone.getAndSet(true)) {
-          val worker = new Thread(task(context), s"$getName: Worker $workersCounter")
+          val worker = new Thread(task(context), s"$threadName: Worker $workersCounter")
           workersCounter += 1
 
           worker.setUncaughtExceptionHandler(catcher)
@@ -28,6 +28,6 @@ final class Supervisor[T](name: String, context: T, task: T => Runnable) {
       }
     }
 
-    new Thread(runnable, getName).start()
+    new Thread(runnable, threadName).start()
   }
 }
