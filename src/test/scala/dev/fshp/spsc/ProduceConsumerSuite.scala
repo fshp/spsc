@@ -17,7 +17,7 @@ class ProduceConsumerSuite extends ScalaCheckSuite {
       .withMinSuccessfulTests(10000)
 
   private val bufferSize: Int = 128
-  private val kGen: Gen[Int] = Gen.choose(bufferSize + 1, 1 << 16)
+  private val kGen: Gen[Int] = Gen.choose(bufferSize + 1, bufferSize << 6)
   private val nGen: Gen[Int] = Gen.choose(100, 2000)
   private val tGen: Gen[Int] = Gen.choose(200, 1000)
   private val pGen: Gen[Int] = Gen.choose(300, 500)

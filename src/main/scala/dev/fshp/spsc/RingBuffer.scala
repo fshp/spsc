@@ -12,35 +12,29 @@ trait Writable {
   def write(value: Int): Unit
 }
 
-final class RingBuffer(size: Int) extends Readable with Writable {
+final class RingBuffer(val size: Int) extends Readable with Writable {
   assert(size > 1, "Size should be greater than 1")
 
   private val buffer: Array[Int] = new Array[Int](size)
-  private val readIndex: AtomicInteger =
-    new AtomicInteger(0) // next write index
-  private val writeIndex: AtomicInteger =
-    new AtomicInteger(0) // next read index
-
-  def capacity: Int = size - 1
+  @volatile private var readIndex: Int = 0 // next write index
+  @volatile private var writeIndex: Int = 0 // next read index
 
   def isReadable: Boolean = {
-    readIndex.get() != writeIndex.get()
+    readIndex != writeIndex
   }
 
   def isWritable: Boolean = {
-    (writeIndex.get() + 1) % size != readIndex.get()
+    (writeIndex + 1) % size != readIndex
   }
 
   def read(): Int = {
-    val index = readIndex.get()
-    val value = buffer(index)
-    readIndex.set((index + 1) % size)
+    val value = buffer(readIndex)
+    readIndex = (readIndex + 1) % size
     value
   }
 
   def write(value: Int): Unit = {
-    val index = writeIndex.get()
-    buffer(index) = value
-    writeIndex.set((index + 1) % size)
+    buffer(writeIndex) = value
+    writeIndex = (writeIndex + 1) % size
   }
 }
